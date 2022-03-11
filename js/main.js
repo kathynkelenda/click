@@ -1,70 +1,107 @@
-console.info('Hello World !');
+let val1 = Math.floor(Math.random() * (9 - 0) + 0);
+let val2 = Math.floor(Math.random() * (9 - 0) + 0);
+let val3 = Math.floor(Math.random() * (9 - 0) + 0);
+let val4 = Math.floor(Math.random() * (9 - 0) + 0);
 
-let compteur = 0;
-let firstclick = true;
-let play = true;
-let chronos = 12;
-let largeur = window.innerWidth;
-let longeur = window.innerHeight;
-console.log("largeur: " + largeur, "longeur: " + longeur);
+let tour = 0;
 
-// Changement du fond de la box2
-let box2 = document.querySelector(".box2");
-box2.style.background = "red";
+console.log(val1, val2, val3, val4);
+var n=0;
 
-// cahngement de couleurs des textes
-// dans chaque boxes
-let boxes = document.querySelectorAll('.box');
-boxes.forEach(box => {
-    box.style.color = "white";
-});
+const valid = () => {
+    let reponse1 = 'X';
+    let reponse2 = 'X';
+    let reponse3 = 'X';
+    let reponse4 = 'X';
 
-box2.addEventListener('click', (event) => {
-    if (play) {
-        if (firstclick) {
-            firstclick = false;
-            setInterval(setTime, 1000);
-        }
-        
-        compteur += 1;
-        console.log('nombre de click: ', compteur);
-        let x = 0;
-        let y = 0;
-        
-        do {
-            x = Math.floor(Math.random() * (largeur - 0) + 0);
-            console.log(largeur, x);
-        } while(x > largeur);
+    console.log("Valid");
+    let anwser1 = parseInt(document.querySelector('.anwser1').value);
+    let anwser2 = parseInt(document.querySelector('.anwser2').value);
+    let anwser3 = parseInt(document.querySelector('.anwser3').value);
+    let anwser4 = parseInt(document.querySelector('.anwser4').value);
 
-        do {
-            y = Math.floor(Math.random() * (longeur - 0) + 0);
-            console.log(longeur, y);
-        } while(y > longeur);
-        
-        console.log("longeur:" + x, "largeur: " + y);
+tour++;
+if(anwser1===val1 && anwser2===val2 && anwser3===val3 && anwser4===val4 && tour<10){
 
-        event.target.style.top = y + "px";
-        event.target.style.left = x + "px";
-    }
-});
+    let div_limite = document.createElement('div');
+    div_limite.innerHTML = "Fin de jeux. Vous avez gagné au bout de" + tour + " tour(s) ";
+    document.querySelector('.limite').appendChild(div_limite)
 
-
-function setTime () {
-    if (play) {
-        chronos--;
-
-        if (chronos <= 10) {
-            document.querySelector('.time').style.color = "red";
-        }
-
-        if (chronos <= 0) {
-            play = false;
-        }
-
-        document.querySelector('.time').innerHTML = '' + chronos;
+}       
+ else if(tour < 10){ 
+    if (anwser1 === val1) {
+        reponse1 = "1";
     } else {
-        document.querySelector('.time').style.color = "green";
-        document.querySelector('.time').innerHTML = "Vous avez cliquez: " + compteur + " fois";
-        box2.style.display = "none";
+        if (anwser2 != val2) {
+            console.log("trouvé 2")
+            reponse2= "."
+        }
+        if (anwser3 != val3) {
+            console.log("trouvé 3")
+            reponse3 = "."
+        }
+        if (anwser1 != val4) {
+            console.log("trouvé 4")
+            reponse4 = "."
+        }
     }
+    
+    if (anwser2 === val2) {
+        reponse2 = "1";
+    } else {
+        if (anwser1 != val1) {
+            reponse1 = "."
+        }
+        if (anwser3 != val3) {
+            reponse3 = "."
+        }
+        if (anwser4 != val4) {
+            reponse4 = "."
+        }
+    }
+    
+    if (anwser3 === val3) {
+        reponse3 = "1";
+    } else {
+        if (anwser1 != val1) {
+            reponse1 = "."
+        }
+        if (anwser2 != val2) {
+            reponse2 = "."
+        }
+        if (anwser4 != val4) {
+            reponse4 = "."
+        }
+    }
+    
+    if (anwser4 === val4) {
+        reponse4 = "1";
+    } else {
+        if (anwser1 != val1) {
+            reponse1 = "."
+        }
+        if (anwser2 != val2) {
+            reponse2 = "."
+        }
+        if (anwser3 != val3) {
+            reponse3 = "."
+        }
+    }
+    
+    console.log(reponse1, reponse2, reponse3, reponse4);
+
+    let div = document.createElement('div');
+    div.classList.add('reponses'+tour)
+    div.innerHTML = anwser1 + " - " + anwser2 + " - " + anwser3 + " - " + anwser4 + 
+        '<br />' +
+        reponse1 + " - " + reponse2 + " - " + reponse3 + " - " + reponse4;
+    document.querySelector('.reponses').appendChild(div)
+   
+} else{
+    let div_limite = document.createElement('div');
+    div_limite.innerHTML = "Vous n'aviez droit qu'à 10 essais. Limite des tentatives atteinte. Fin de jeux."
+    document.querySelector('.limite').appendChild(div_limite)
+    }
+   
 }
+
